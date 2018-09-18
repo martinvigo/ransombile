@@ -1,0 +1,76 @@
+// Place all the styles related to the Ransombile controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#mainDiv{
+	width: 95%;
+	margin: auto;
+	padding: 15px;
+}
+
+.label{
+	font-size: 3em;
+	font-weight: bold;
+}
+
+.statusLabel, #emailVictimLabel, #phoneVictimLabel{
+	font-size: 2.8em;
+	font-style: italic;
+	margin-left: 10px;
+}
+
+input{
+	width: 69%;
+	font-size: 50px;
+}
+
+button { 
+	float: right;
+	height: 90px;
+	width: 180px;
+	font-size: 30px;
+	text-align: center;
+	color: red;
+	border: 5px solid red;
+}
+
+.inputAndButton{
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+#title{
+    margin-bottom: 20px;
+    text-align: center;
+    display: block;
+	font-size: 9em;
+}
+
+#passwordInput{
+	margin-bottom: 20px;
+}
+
+#emailVictimLabel, #phoneVictimLabel{
+	color: blue;
+	text-decoration: underline;
+}
+
+
+#labelAndStatus{
+	float: left;
+	width: 100%;
+	display: block;
+	font-size: 3em;
+}
+
+#border{
+	border: solid 3px;
+	padding: 15px;
+	margin-bottom: 100px;
+	margin-bottom: 40px;
+}
+
+
+#phoneLabels, #emailLabels{
+	display: block;
+}

