@@ -34,6 +34,12 @@ Next, you need to update the UI, file *index.html.erb*. Just copy paste what's a
 
 Last, update the *routes* file
 
+## Demo video
+[![Ransombile demo video](https://img.youtube.com/vi/-d152pJ_Ua0/0.jpg)](https://www.youtube.com/watch?v=-d152pJ_Ua0)
+
+## Tool presentation at BSides Las Vegas 2018
+[![Ransombile presentation at Bsides Las Vegas 2018](https://img.youtube.com/vi/7MbgFTJrhss/0.jpg)](https://www.youtube.com/watch?v=7MbgFTJrhss)
+
 ## Authors
 
 Martin Vigo - @martin_vigo - [martinvigo.com](https://www.martinvigo.com)
